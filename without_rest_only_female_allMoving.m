@@ -1,5 +1,5 @@
 % In this section, the goal is to analyze the effect of each specific hand movement on gender classification.
-% The dataset includes 20 male subjects. Each subject performed 5 cycles, and each cycle consists of 10 different hand gestures.
+% The dataset includes 20 female subjects. Each subject performed 5 cycles, and each cycle consists of 10 different hand gestures.
 
 clear;
 clc;
