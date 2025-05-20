@@ -7,7 +7,7 @@
 clc;
 clear;
 
-%% Select which movement-cycle combination to load
+%%Select which movement-cycle combination to load
 % 1. First cycle of the first movement
 % load('all_female_rms_first_cycle_first_movement'); 
 % load('all_male_rms_first_cycle_first_movement');
