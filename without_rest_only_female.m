@@ -106,5 +106,7 @@ for i = 1:4  % for each channel
     end
     k = 1;  % reset index for next channel
 end
- 
+
+
+ % saved "all_female_rms.mat"
 
