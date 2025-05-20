@@ -81,8 +81,6 @@
 
    % Combine all gesture segments across all 5 cycles 
    all_features=[features_1 ;features_2;features_3;features_4;features_5];
-
-
     
     % Save combined features for this subject (update the variable name accordingly, e.g., subject 20)
     save combined_features_20 combined_features_20
