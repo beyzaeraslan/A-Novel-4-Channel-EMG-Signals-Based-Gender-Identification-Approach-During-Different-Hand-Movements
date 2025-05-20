@@ -7,7 +7,7 @@
 clc;
 clear;
 
-%% ====================== Data Loading ===========================
+%% ====================== Data Loading ==========================
 load('all_female_rms_second_move_matrix.mat'); 
 load('all_male_rms_second_move_matrix.mat');
 
@@ -15,7 +15,7 @@ load('all_male_rms_second_move_matrix.mat');
 % load('all_female_rms_second_move_matrix.mat')
 % load('all_male_rms_second_move_matrix_last_cycle.mat')
 
-%% ====================== Label Assignment ===========================
+%% ====================== Label Assignment ==========================
 % 1 = female, 2 = male
 label_female = ones(length(all_female_rms_second_move_matrix), 1);
 label_male   = ones(length(all_male_rms_second_move_matrix), 1) * 2;
