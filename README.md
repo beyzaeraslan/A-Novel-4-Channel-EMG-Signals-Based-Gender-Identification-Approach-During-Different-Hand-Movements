@@ -16,6 +16,7 @@ o Reduced Data Input Evaluation
 To evaluate the practicality of the system in low-data or real-time environments, we tested model performance using only a single repetition per movement (i.e., 1 out of 5 cycles per subject). Despite this significant reduction in training data (~20% of the original), the models consistently achieved classification accuracies above 90%, highlighting the robustness of the proposed approach.
 
 Dataset Description
+
 The EMG data used in this project was obtained from the following publication:
 Author(s): [Full Author Names]
 Title: Dataset for multi-channel surface electromyography (sEMG) signals of hand gestures 
