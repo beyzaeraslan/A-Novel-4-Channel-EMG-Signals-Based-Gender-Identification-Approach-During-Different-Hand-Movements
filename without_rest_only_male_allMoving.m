@@ -1,16 +1,12 @@
-% In this section, the aim is to analyze the impact of each hand movement on gender classification.
-% To achieve this, the code processes the RMS-extracted features and separates the data by individual movements.
-% The 'rest' (non-movement) periods have been excluded from the dataset.
-% Each subject performed 10 different hand movements.
+% In this section, the goal is to analyze the effect of each specific hand movement on gender classification.
+% The dataset includes 20 male subjects. Each subject performed 5 cycles, and each cycle consists of 10 different hand gestures.
 
 clear;
 clc;
-load('all_male_rms') % Load the combined RMS feature data for 100 male subjects (100 x 600 samples)
+load('all_male_rms') % Load the combined RMS feature matrix
 
-% Separate the RMS features for each of the 10 hand movements per subject
-% Each subject has 600 samples: 10 movements x 60 samples
-
-for i = 1:100
+% Convert each gesture-specific cell array into a matrix and save them as separate .mat files for further analysis
+for i = 1:100   % 20 subjects x 5 cycle
     base_idx = (i - 1) * 600;
     first_move{i} = all_male_rms(base_idx + 1 : base_idx + 60, :);
 end
@@ -62,8 +58,6 @@ end
 
 
 % Convert each movement cell array into a matrix and save separately.
-% Each resulting matrix has dimensions 6000 x 4 (100 subjects x 60 samples per movement)
-
 all_male_rms_first_move_matrix = cell2mat(first_move');
 save('all_male_rms_first_move_matrix.mat', 'all_male_rms_first_move_matrix');
 
@@ -94,7 +88,3 @@ save('all_male_rms_ninth_move_matrix.mat', 'all_male_rms_ninth_move_matrix');
 all_male_rms_tenth_move_matrix = cell2mat(tenth_move');
 save('all_male_rms_tenth_move_matrix.mat', 'all_male_rms_tenth_move_matrix');
 
-
-% At this point, each subject's individual movements have been separated and saved as standalone matrices.
-% These matrices can now be used for further movement-specific analysis in gender classification tasks.
-% The same procedure can be applied to the female dataset and then the matrices can be labeled and combined accordingly.
