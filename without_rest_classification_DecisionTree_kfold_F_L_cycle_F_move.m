@@ -2,118 +2,104 @@
 % Then, train using the last cycle of the first movement (male vs. female).
 % Next, train using the first cycle of the tenth movement (male vs. female).
 % Finally, train using the last cycle of the tenth movement (male vs. female).
-% Note: "Last movement" refers to the tenth movement in this context.
-
+% Note: "Last movement" refers to the tenth hand movement in this context.
 
 clc;
 clear;
-%%
-%1
+
+%% Select which movement-cycle combination to load
+% 1. First cycle of the first movement
 % load('all_female_rms_first_cycle_first_movement'); 
 % load('all_male_rms_first_cycle_first_movement');
 
-%%
-%2
-% % 
+% 2. Last cycle of the first movement
 % load('all_female_rms_last_cycle_first_movement'); 
 % load('all_male_rms_last_cycle_first_movement');
-%%
-%3
+
+% 3. First cycle of the tenth (last) movement
 % load('all_female_rms_first_cycle_last_movement'); 
 % load('all_male_rms_first_cycle_last_movement');
-% % % 
-%%
-%4
+
+% 4. Last cycle of the tenth (last) movement
 load('all_female_rms_last_cycle_last_movement'); 
 load('all_male_rms_last_cycle_last_movement');
-%%
 
-% Etiket oluşturma
+%% Label assignment: 1 = female, 2 = male
 label_female = ones(length(all_female_rms_last_cycle_last_movement), 1);
-label_male = ones(length(all_male_rms_last_cycle_last_movement), 1) * 2;
+label_male   = ones(length(all_male_rms_last_cycle_last_movement), 1) * 2;
 
 label = [label_female; label_male];
 
-% Merge data and labels
+% Combine data and labels
 veri = [all_female_rms_last_cycle_last_movement; all_male_rms_last_cycle_last_movement];
 veri_label = [veri label];
 
-% K-Fold cross validation settings
-K = 5; % K kat sayısı
+% K-Fold cross-validation settings
+K = 5;
 cv = cvpartition(label, 'KFold', K);
-
-% K-Fold cross validation
 accuracy = zeros(K, 1);
+
 tic;
 for i = 1:K
-
-    trainData = veri(training(cv, i), :);
+    % Split data into training and testing sets
+    trainData   = veri(training(cv, i), :);
     trainLabels = label(training(cv, i));
-    testData = veri(test(cv, i), :);
-    testLabels = label(test(cv, i));
+    testData    = veri(test(cv, i), :);
+    testLabels  = label(test(cv, i));
     
-  
-treeModel = fitctree(trainData, trainLabels);
+    % Train the Decision Tree model
+    treeModel = fitctree(trainData, trainLabels);
 
+    % Predict labels on test set
+    predictedLabels = predict(treeModel, testData);
 
-predictedLabels = predict(treeModel, testData);
-
-
-accuracy = sum(predictedLabels == testLabels) / length(testLabels);
-fprintf('Decision Tree Ortalama Doğruluk: %.2f%%\n', accuracy * 100);
-
+    % Compute accuracy for this fold
+    accuracy = sum(predictedLabels == testLabels) / length(testLabels);
+    fprintf('Decision Tree Accuracy: %.2f%%\n', accuracy * 100);
 end
 toc;
-% Ortalama doğruluk
-meanAccuracy = mean(accuracy);
-fprintf('Ortalama Doğruluk: %.2f%%\n', meanAccuracy * 100);
 
-% Son katmanın test verileri üzerinde performansını değerlendirme
-testData = veri(test(cv, K), :);
-testLabels = label(test(cv, K));
+% Report mean accuracy across folds
+meanAccuracy = mean(accuracy);
+fprintf('Mean Accuracy: %.2f%%\n', meanAccuracy * 100);
+
+% Final evaluation using the last fold's test set
+testData    = veri(test(cv, K), :);
+testLabels  = label(test(cv, K));
 predictedLabels = predict(treeModel, testData);
 
-% Confusion matrix oluşturma
+% Generate confusion matrix
 confMat = confusionmat(testLabels, predictedLabels);
 disp('Confusion Matrix:');
 disp(confMat);
 
-% Confusion matrix oluşturma
-confMat = confusionmat(testLabels, predictedLabels);
-disp('Confusion Matrix:');
-disp(confMat);
-
-% Confusion matrix çizme
-figure;
+% Plot confusion matrix
 confMatChart = confusionchart(testLabels, predictedLabels);
 confMatChart.Title = 'Confusion Matrix - Rest Movement';
 confMatChart.ColumnSummary = 'column-normalized';
 confMatChart.RowSummary = 'row-normalized';
-confMatChart.FontSize = 12; % Yazı tipi boyutunu ayarlamak için
+confMatChart.FontSize = 12;
 
-% Diğer performans metriklerini hesaplama
-precision = confMat(2,2) / (confMat(2,2) + confMat(1,2)); % Pozitif sınıfın hassasiyeti
-recall = confMat(2,2) / (confMat(2,2) + confMat(2,1)); % Pozitif sınıfın hatırlama oranı
-f1Score = 2 * (precision * recall) / (precision + recall);
+% Compute additional performance metrics
+precision = confMat(2,2) / (confMat(2,2) + confMat(1,2)); % Precision for class 2 (male)
+recall    = confMat(2,2) / (confMat(2,2) + confMat(2,1)); % Recall for class 2 (male)
+f1Score   = 2 * (precision * recall) / (precision + recall);
 
-fprintf('Hassasiyet: %.2f%%\n', precision * 100);
-fprintf('Hatalama Oranı: %.2f%%\n', recall * 100);
-fprintf('F1 Skoru: %.2f\n', f1Score*100);
+fprintf('Precision: %.2f%%\n', precision * 100);
+fprintf('Recall: %.2f%%\n', recall * 100);
+fprintf('F1 Score: %.2f\n', f1Score * 100);
 
-% Model tahmin olasılıklarını alıyoruz (iki sınıflı tahminler için)
+% Obtain class scores (probabilities)
 [~, score] = predict(treeModel, testData);
 
-% ROC eğrisi ve AUC hesaplama
-% Burada '1' pozitif sınıfın etiketi olarak varsayılmıştır, eğer farklıysa bunu değiştirin
+% Compute ROC curve and AUC
+% Class '2' (male) is assumed as the positive class
 [X, Y, T, AUC] = perfcurve(testLabels, score(:, 2), 2);
 
-% ROC eğrisini çizme
+% Plot ROC curve
 figure;
 plot(X, Y, 'LineWidth', 2);
 xlabel('False Positive Rate');
 ylabel('True Positive Rate');
 title('ROC Curve - Rest Movement');
 fprintf('AUC: %.2f\n', AUC);
-
-
-
