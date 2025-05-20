@@ -2,6 +2,7 @@
 % Each subject performs 5 cycles, and each cycle contains 10 distinct hand gestures.
 % Rest segments are excluded, and only active gesture segments are considered for analysis.
 
+% 'data' is loaded manually from individual .mat files located in C:/female/ or C:/male/, each representing one subject.
     % ---- Cycle 1 ----
     data_1=data(1:208000,:);
     male_gesture_1= data_1(8000+1:20000,:);
