@@ -87,6 +87,14 @@
     % Save combined features for this subject (update the variable name accordingly, e.g., subject 20)
     save combined_features_20 combined_features_20
     clear;
+
+%IMPORTANT: Before proceeding to the next step, you must run this script
+% separately for all 20 male subjects.
+% 
+% After processing all subjects, you will obtain the following variables:
+% combined_features_1, combined_features_2, ..., combined_features_20
+%
+% These should then be concatenated and saved as follows:
  
 % Combine gesture data from all subjects into one matrix (rest segments excluded)
 % Each 'combined_features_X' corresponds to one subject.
