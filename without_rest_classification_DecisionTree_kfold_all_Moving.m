@@ -3,11 +3,6 @@
 % For example, we will first load and train on the data from the first movement 
 % for both male and female subjects, then repeat the process for the second movement,
 % and so on, up to the tenth movement.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% In addition, classification will also be performed by comparing the first 
-% and last cycles of each movement separately.
-% For that purpose, data is loaded as follows (example for the second movement):
-% load('all_female_rms_second_move_matrix.mat')
 
 clc;
 clear;
