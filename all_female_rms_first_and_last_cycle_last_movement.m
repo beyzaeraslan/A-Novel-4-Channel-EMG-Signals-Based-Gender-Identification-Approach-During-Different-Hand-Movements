@@ -12,11 +12,11 @@
 clear;
 clc;
 
-% Load preprocessed RMS feature matrix for 100 female subjects
-load('all_female_rms');  % Each subject has 600 samples (10 movements × 60 samples)
+% Load preprocessed RMS feature matrix for all female subjects
+load('all_female_rms');
 
 % -------------------------------------------------------------------------
-% Step 1: Extract the 10th movement (samples 541–600) for each subject
+% Step 1: Extract the 10th movement for each subject
 % -------------------------------------------------------------------------
 
 for i = 1:100
