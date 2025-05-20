@@ -24,7 +24,7 @@ clear;
 load('all_female_rms_last_cycle_last_movement'); 
 load('all_male_rms_last_cycle_last_movement');
 
-%% Label assignment: 1 = female, 2 = male
+%%Label assignment: 1 = female, 2 = male
 label_female = ones(length(all_female_rms_last_cycle_last_movement), 1);
 label_male   = ones(length(all_male_rms_last_cycle_last_movement), 1) * 2;
 
