@@ -15,19 +15,16 @@ clc;
 % Load preprocessed RMS feature matrix for all female subjects
 load('all_female_rms');
 
-% -------------------------------------------------------------------------
-% Step 1: Extract the 10th movement for each subject
-% -------------------------------------------------------------------------
+% Extract the 10th movement for each subject
 
 for i = 1:100
     base_idx = (i - 1) * 600;  % Starting index of the current subject's data block
     tenth_move{i} = all_female_rms(base_idx + 541 : base_idx + 600, :);
 end
 
-% -------------------------------------------------------------------------
-% Step 2: Select the first cycle's last movement from 20 selected subjects
+
+% Select the first cycle's last movement from 20 selected subjects
 % (Subjects: 1, 6, 11, ..., 96 — i.e., every 5th subject starting at 1)
-% -------------------------------------------------------------------------
 
 for i = 1:5:100
     varName = sprintf('all_female_rms_first_cycle_last_movement_%d', i);
@@ -49,10 +46,7 @@ end
 all_female_rms_first_cycle_last_movement = female_concat_data;
 save all_female_rms_first_cycle_last_movement all_female_rms_first_cycle_last_movement
 
-% -------------------------------------------------------------------------
-% Step 3: Select the last cycle's last movement from 20 selected subjects
-% (Subjects: 5, 10, 15, ..., 100 — i.e., every 5th subject starting at 5)
-% -------------------------------------------------------------------------
+% Select the last cycle's last movement from 20 selected subjects
 
 for i = 5:5:100
     varName = sprintf('all_female_rms_last_cycle_last_movement_%d', i);
