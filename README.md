@@ -2,6 +2,7 @@
 This repository contains MATLAB code and processing scripts for a gender classification study using surface EMG signals recorded from 4 channels during 10 distinct hand movements. The goal is to explore the feasibility of using muscle activity signals as biometric data to distinguish between male and female subjects.
 
 Core Analyses
+
 o Movement-Based Classification
 To investigate the discriminative power of individual gestures, classification models were trained separately on each of the 10 distinct hand movements. This allowed us to evaluate which specific movements yielded higher gender classification accuracy and contributed most significantly to overall model performance.
 
