@@ -81,8 +81,8 @@ confMatChart.RowSummary = 'row-normalized';
 confMatChart.FontSize = 12;
 
 % Compute additional performance metrics
-precision = confMat(2,2) / (confMat(2,2) + confMat(1,2)); % Precision for class 2 (male)
-recall    = confMat(2,2) / (confMat(2,2) + confMat(2,1)); % Recall for class 2 (male)
+precision = confMat(2,2) / (confMat(2,2) + confMat(1,2)); 
+recall    = confMat(2,2) / (confMat(2,2) + confMat(2,1)); 
 f1Score   = 2 * (precision * recall) / (precision + recall);
 
 fprintf('Precision: %.2f%%\n', precision * 100);
