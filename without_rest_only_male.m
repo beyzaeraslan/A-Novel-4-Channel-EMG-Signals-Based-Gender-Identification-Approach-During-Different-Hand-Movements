@@ -1,13 +1,8 @@
 % This script processes publicly available EMG data obtained from an online source.
-% Data from 20 individual male subjects were separately loaded and stored as:
-% combined_features_1, combined_features_2, ..., combined_features_20.
-%
-% All individual datasets were concatenated into a single variable named 'all_male'.
-% Subsequently, RMS (Root Mean Square) features were extracted from the combined data.
-%
-% The resulting feature matrix was saved as 'all_male_rms.mat' for further analysis.
+% Each subject performs 5 cycles, and each cycle contains 10 distinct hand gestures.
+% Rest segments are excluded, and only active gesture segments are considered for analysis.
 
-    % 1 cycle için
+    % ---- Cycle 1 ----
     data_1=data(1:208000,:);
     male_gesture_1= data_1(8000+1:20000,:);
     male_gesture_2= data_1(28000+1:40000,:);
@@ -23,7 +18,7 @@
     features_1=[male_gesture_1;male_gesture_2;male_gesture_3;male_gesture_4;male_gesture_5;male_gesture_6;male_gesture_7;male_gesture_8;male_gesture_9;male_gesture_10];
     
     
-    % 2 cycle için
+    % ---- Cycle 2 ----
     data_2=data(268000:476000,:);
     male_gesture_1= data_2(8000+1:20000,:);
     male_gesture_2= data_2(28000+1:40000,:);
@@ -37,7 +32,8 @@
     male_gesture_10= data_2(188000+1:200000,:);
     
     features_2=[male_gesture_1;male_gesture_2;male_gesture_3;male_gesture_4;male_gesture_5;male_gesture_6;male_gesture_7;male_gesture_8;male_gesture_9;male_gesture_10];
-     % 3 cycle için
+     
+     % ---- Cycle 3 ---- 
     data_3=data(536000:744000,:);
     male_gesture_1= data_3(8000+1:20000,:);
     male_gesture_2= data_3(28000+1:40000,:);
@@ -52,7 +48,7 @@
     
     features_3=[male_gesture_1;male_gesture_2;male_gesture_3;male_gesture_4;male_gesture_5;male_gesture_6;male_gesture_7;male_gesture_8;male_gesture_9;male_gesture_10];
     
-    % 4 cycle için
+    % ---- Cycle 4 ---- 
     data_4=data(804000:1012000,:);
     male_gesture_1= data_4(8000+1:20000,:);
     male_gesture_2= data_4(28000+1:40000,:);
@@ -67,7 +63,7 @@
     
     features_4=[male_gesture_1;male_gesture_2;male_gesture_3;male_gesture_4;male_gesture_5;male_gesture_6;male_gesture_7;male_gesture_8;male_gesture_9;male_gesture_10];
     
-     % 5 cycle için
+    % ---- Cycle 5 ----
     data_5=data(1072000:1280000,:);
     male_gesture_1= data_5(8000+1:20000,:);
     male_gesture_2= data_5(28000+1:40000,:);
@@ -81,35 +77,36 @@
     male_gesture_10= data_5(188000+1:200000,:)
     
    features_5=[male_gesture_1;male_gesture_2;male_gesture_3;male_gesture_4;male_gesture_5;male_gesture_6;male_gesture_7;male_gesture_8;male_gesture_9;male_gesture_10];
-    
+
+   % Combine all gesture segments across all 5 cycles 
    all_features=[features_1 ;features_2;features_3;features_4;features_5];
+
+
     
-    combined_features_20 = all_features;
+    % Save combined features for this subject (update the variable name accordingly, e.g., subject 20)
     save combined_features_20 combined_features_20
     clear;
-
-
-
-% To better analyze the effect of specific hand movements on gender classification,
-% all signals labeled as 'rest' (i.e., during non-movement periods) have been excluded from the dataset.
-% The analysis is thus limited to active gesture data only.
-
+ 
+% Combine gesture data from all subjects into one matrix (rest segments excluded)
+% Each 'combined_features_X' corresponds to one subject.
 all_male=[combined_features_1 ; combined_features_2 ;combined_features_3;combined_features_4;combined_features_5;combined_features_6;combined_features_7;combined_features_8 ;combined_features_9 ; combined_features_10;combined_features_11 ; combined_features_12 ;combined_features_13;combined_features_14;combined_features_15;combined_features_16;combined_features_17;combined_features_18 ;combined_features_19 ; combined_features_20];
 
-% feature extraction
-k=1;
-pu_zaman = 100; % milisecond
-fs = 2000;
-pu = (fs*pu_zaman)/1000;
-for i = 1:4
-    for j = 1:pu:size(all_male)
-        pencere = all_male(j:j+pu-1, i);
-        feat = rms(pencere);
-        feature(k,i) = feat;
-        k = k + 1;       
+
+% RMS features are extracted from each channel using a sliding window approach.
+% Window size: 100 ms, Sampling rate: 2000 Hz → 200 samples per window
+k = 1;
+pu_time = 100; % milliseconds
+fs = 2000;      % sampling frequency in Hz
+pu = (fs * pu_time) / 1000; % samples per window (100 ms)
+for i = 1:4  % for each channel
+    for j = 1:pu:size(all_male,1) - pu + 1
+        window = all_male(j:j+pu-1, i);  % extract 100 ms segment
+        feat = rms(window);             % compute RMS
+        feature(k, i) = feat;           % store feature
+        k = k + 1;
     end
-    k=1;
-  end
+    k = 1;  % reset index for next channel
+end
  
 
 
