@@ -1,7 +1,5 @@
-% In this section, the aim is to analyze the impact of each hand movement on gender classification.
-% To achieve this, the code processes the RMS-extracted features and separates the data by individual movements.
-% The 'rest' (non-movement) periods have been excluded from the dataset.
-% Each subject performed 10 different hand movements, and each movement block consists of 60 samples.
+% In this section, the goal is to analyze the effect of each specific hand movement on gender classification.
+% The dataset includes 20 male subjects. Each subject performed 5 cycles, and each cycle consists of 10 different hand gestures.
 
 clear;
 clc;
