@@ -27,7 +27,7 @@ The dataset is split into:
 female/ — EMG recordings of 20 female subjects
 male/ — EMG recordings of 20 male subjects
 
-📦 Note: Due to GitHub's file size restrictions, the data files are hosted externally and can be downloaded from the following link: https://drive.google.com/drive/folders/1dX7m1t1HveLG6SO3mKlxQXRWrplItqwV?usp=sharing
+Note: Due to GitHub's file size restrictions, the data files are hosted externally and can be downloaded from the following link: https://drive.google.com/drive/folders/1dX7m1t1HveLG6SO3mKlxQXRWrplItqwV?usp=sharing
 
 
 
